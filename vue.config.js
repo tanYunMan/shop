@@ -24,6 +24,19 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
+  chainWebpack: config => {
+    config.module.rules.delete("svg");
+  },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.svg$/, 
+          loader: 'vue-svg-loader', 
+        },
+      ],
+    }      
+  },
   publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
