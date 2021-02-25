@@ -20,12 +20,30 @@
                     <div>
                         <ul>
                             <li v-for="(item,i) in LoginSiteInfo" :key=i style="margin:10px 0px;display:flex;align-items: flex-start;color: #888;font-size:14px">
-                                <span class="label" style="font-size: 14px;font-weight: 600;margin-top:6px">{{item.key}}：</span>
-                                <div style="margin-top:6px;">
-                                    <span style="margin-left:10px;" class="val" v-for="(items,is) in item.value"  :key=is >{{items}}</span>
+                                <span class="label" style="font-size: 14px;font-weight: 600;margin-top:6px">{{item.key=='卡网地址'?'主站域名':item.key=='店铺链接'?'发卡域名':item.key}}：</span>
+                                <div style="margin-top:6px;display:flex">
+                                    <span style="margin-left:10px;" v-bind:class="[item.key=='站点版本'?'styleFont':'','val']"  v-for="(items,is) in item.value"  :key=is >{{items}}</span>
+                                    <span v-if="item.key=='站点版本'" class="dayMess" style="margin:0 15px;lineHeight:25px;fontSize:16px;color:red">{{getDateDiff(outTime.split('至')[0],new Date().toLocaleDateString().replaceAll('/','-'))}}&nbsp&nbsp天</span>
+                                    <img style="width:25px;height:25px;cursor: pointer;" v-if="item.key=='站点版本'" :src="imgSrc" />
+                                    <!-- <span v-if="item.key=='站点版本'" style="backgroundImage:{{imgSrc}}"><img :src="imgSrc" /></span> -->
                                 </div>
                                 <div v-if="item.key == '主站信息'" style="margin-left:50px;margin-top:1px;">
                                     <span> <el-button class="mybutton" style="text-decoration:underline;" size="mini" type="text" @click.stop="syncProduct" :disabled="isDisabled">同步商品</el-button></span>
+                                    <!-- <a id='syncProduct' style="color:#409EFF;text-decoration:underline;" size="mini" type="text" @click.stop="syncProduct" :disabled="isDisabled">同步商品</a> -->
+                                </div>
+                            </li>
+                            <li style="margin:10px 0px;display:flex;align-items: flex-start;color: #888;font-size:14px">
+                                <span class="label" style="font-size: 14px;font-weight: 600;margin-top:6px">搭建客服：</span>
+                                <div style="margin-top:6px;">
+                                    <span style="margin-left:10px;" class="val" >新卡售-总监&nbsp&nbsp QQ318059129</span>
+                                </div>
+                                <div style="margin-left:50px;margin-top:1px;"  @mouseenter="showQQ=false" @mouseout="showQQ=true">
+                                    <span class="QQStyle" style="cursor: pointer;"> <a class="styleA" :style="{'border':showQQ?'1px solid rgb(136, 136, 136)':'1px solid red'}" target=blank href='tencent://message/?uin=318059129&Site=工具啦&Menu=yes'>
+                                        <img  @mouseenter="showQQ=false" @mouseout="showQQ=true" v-if="showQQ" border="0" style="width: 25px;height: 25px;" :SRC='QQOne' alt="点击这里给我发消息">
+                                        <img  @mouseenter="showQQ=false" @mouseout="showQQ=true" v-if="!showQQ" border="0" style="width: 25px;height: 25px;" :SRC='QQTwo' alt="点击这里给我发消息">
+                                        <span  @mouseenter="showQQ=false" @mouseout="showQQ=true" class="contentMess" :style="{'color':showQQ?'rgb(136, 136, 136)':'red'}">点击联系</span>
+                                    </a></span>
+                                    <!-- <span> <el-button class="mybutton" style="text-decoration:underline;" size="mini" type="text" @click.stop="syncProduct" >同步商品</el-button></span> -->
                                     <!-- <a id='syncProduct' style="color:#409EFF;text-decoration:underline;" size="mini" type="text" @click.stop="syncProduct" :disabled="isDisabled">同步商品</a> -->
                                 </div>
                             </li>
@@ -34,11 +52,11 @@
                 </el-col>
                 <el-col  :span="8">
                     <div class="index-head-centent-right">
-                        <div class="index-head-centent-right-list">
+                        <div class="index-head-centent-right-list" style="marginTop:20px">
                             <div class="index-head-centent-right-list-icon" @click="rechargeMoney">
                                 <!-- <daiban style="color: #FD7F07; background: #FBEEE1;" class="index-head-centent-right-list-icon-is"  /> -->
                                 <!-- <svg-icon icon-class="daiban"  style="color: #FD7F07; background: #FBEEE1;" class="index-head-centent-right-list-icon-is"></svg-icon>  -->
-                                余额：<p style="color:red;margin:0">{{thisMoneyData.money}}</p>
+                                账户余额：<p style="color:red;margin:0">{{thisMoneyData.money}}</p>
                             </div>
                             <!-- <div class="index-head-centent-right-list-text">
                                 3 &nbsp;&nbsp;/&nbsp;&nbsp; 26
@@ -48,16 +66,18 @@
                             <div class="index-head-centent-right-list-icon" @click="rechargeMoney">
                                 <!-- <github style="color: #2294FC; background: #DDEDFD;" class="index-head-centent-right-list-icon-is"  />  -->
                                 <!-- <svg-icon icon-class="github" style="color: #2294FC; background: #DDEDFD;" class="index-head-centent-right-list-icon-is"></svg-icon>  -->
-                                充值
+                                <el-button type="primary" plain> 充值</el-button>
+                               
                             </div>
                             <!-- <div class="index-head-centent-right-list-text">
                                 7
                             </div> -->
                         </div>
-                        <div class="index-head-centent-right-list">
-                            <div class="index-head-centent-right-list-icon">
+                        <div class="index-head-centent-right-list" style="margin-left:0px">
+                            <div class="index-head-centent-right-list-icon" @click="meMoney">
                                 <!-- <daiban class="index-head-centent-right-list-icon-is"  /> 代办事项 -->
                                 <!-- <svg-icon icon-class="daiban" class="index-head-centent-right-list-icon-is" />  代办事项 -->
+                                <el-button plain> 提现</el-button>
                             </div>
                             <!-- <div class="index-head-centent-right-list-text">
                                 3 &nbsp;&nbsp;/&nbsp;&nbsp; 26
@@ -193,6 +213,12 @@ export default {
             payDialog: false, // 支付弹窗
             qrCode: '', // 二维码地址
             loading: false,
+            outTime:'',
+            imgSrc:require('../../assets/icon/升级.png'),
+            QQSrc:require('../../assets/icon/QQ.png'),
+            QQOne:require('../../assets/icon/qq01.png'),
+            QQTwo:require('../../assets/icon/qq02.png'),
+            showQQ:true
         }
     },
     components:{
@@ -217,6 +243,16 @@ export default {
         this.getListForClient()
     },
     methods: {
+        getDateDiff(startDate,endDate) 
+        { 
+            var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/" ))).getTime();    
+            var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/" ))).getTime();    
+            var dates = Math.abs((startTime - endTime))/(1000*60*60*24);    
+            return  dates;   
+        },
+        meMoney(){
+            this.$router.push({ path: '/menu10/8' })
+        },
         // 商户信息
         getLoginSite(){
             getDatas({},'/platform/site/getLoginSite').then(res => {
@@ -383,6 +419,39 @@ export default {
 </script>
 
 <style scoped>
+.styleA{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contentMess{
+    display: inline-block;
+    margin-top: 5px;
+}
+.dayMess{
+    margin:0 15px;
+    line-height:25px;
+    font-size:16px;
+    color:red
+}
+.QQStyle{
+    width: 90px;
+    height: 30px;
+    display: inline-block;
+    /* background-image: url('../../assets/icon/QQ.png'); */
+    /* background-size: cover; */
+}
+::v-deep .el-button{
+    font-size:16px;
+    font-weight:bold;
+}
+.styleFont{
+    border: 1px solid red;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 1px;
+}
 .user-avatar {
     cursor: pointer;
     width: 40px;

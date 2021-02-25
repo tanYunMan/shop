@@ -83,9 +83,9 @@
                         <div style="marginRight:30px">
                           <img :src="item.icon" />
                         </div>
-                        <div class="info">
-                          <p class="name">{{item.name}}</p>
-                          <p style="color:white">{{item.num}} {{item.tips}}</p>
+                        <div class="info" style="width:140px;display: flex;justify-content: center;align-items: center;">
+                          <p class="name" style="color:white;margin-right:10px;fontSize:18px;fontWeight:bold;marginTop:5px">{{item.name}}</p>
+                          <p style="color:white;fontWeight:bold">{{item.num}} {{item.tips}}</p>
                         </div> 
                     </div>
                 </div>
@@ -107,49 +107,49 @@ export default {
         return {
             records:[
                 {
-                    icon:require('../../assets/icon/h1.jpg'),
+                    icon:require('../../assets/icon/充值.png'),
                     name:'充值金额',
                     num:'0',
                     tips:'元'
                 },
                 {
-                    icon:require('../../assets/icon/h2.jpg'),
+                    icon:require('../../assets/icon/金额.png'),
                     name:'销售金额',
                     num:'0',
                     tips:'元'
                 },
                 {
-                    icon:require('../../assets/icon/h3.jpg'),
+                    icon:require('../../assets/icon/手续费.png'),
                     name:'手续费',
                     num:'0',
                     tips:'元'
                 },
                 {
-                    icon:require('../../assets/icon/h4.jpg'),
+                    icon:require('../../assets/icon/订单.png'),
                     name:'直销订单',
                     num:'0',
                     tips:'个'
                 },
                 {
-                    icon:require('../../assets/icon/h5.jpg'),
+                    icon:require('../../assets/icon/对接订单.png'),
                     name:'对接订单',
                     num:'0',
                     tips:'个'
                 },
                 {
-                    icon:require('../../assets/icon/h6.jpg'),
+                    icon:require('../../assets/icon/投诉订单.png'),
                     name:'投诉订单',
                     num:'0',
                     tips:'个'
                 },
                 {
-                    icon:require('../../assets/icon/h7.jpg'),
+                    icon:require('../../assets/icon/用户.png'),
                     name:'注册用户',
                     num:'0',
                     tips:'个'
                 },
                 {
-                    icon:require('../../assets/icon/h8.jpg'),
+                    icon:require('../../assets/icon/平台.png'),
                     name:'搭建子站',
                     num:'0',
                     tips:'个'

@@ -1,22 +1,24 @@
 <template>
     <div class="dynamic">
-        <vue-seamless-scroll :data='dynamicList' class="dynamic-warp">
-            <div class="dynamic-list" v-for="(item,index) in dynamicList" :key="index">
-                <div class="dynamic-list-left">
-                    <img src="http://public.nodebook.top/fd123a3921e910809fba9da0101bf8f6.jpg" />
+        <!-- <el-container v-loading="loading"> -->
+            <vue-seamless-scroll :data='dynamicList' class="dynamic-warp">
+                <div class="dynamic-list" v-for="(item,index) in dynamicList" :key="index">
+                    <div class="dynamic-list-left">
+                        <img src="http://public.nodebook.top/fd123a3921e910809fba9da0101bf8f6.jpg" />
+                    </div>
+                    <div class="dynamic-list-right">
+                        <p class="dynamic-list-right-top">
+                            <span>{{item.name}}</span>
+                            <span>{{item.type}}</span>
+                            <span>{{item.msg}}</span>
+                        </p>
+                        <p class="dynamic-list-right-bottom">
+                            {{item.time}}
+                        </p>
+                    </div>
                 </div>
-                <div class="dynamic-list-right">
-                    <p class="dynamic-list-right-top">
-                        <span>{{item.name}}</span>
-                        <span>{{item.type}}</span>
-                        <span>{{item.msg}}</span>
-                    </p>
-                    <p class="dynamic-list-right-bottom">
-                        {{item.time}}
-                    </p>
-                </div>
-            </div>
-        </vue-seamless-scroll>
+            </vue-seamless-scroll>
+        <!-- </el-container> -->
     </div>
 </template>
 
@@ -26,70 +28,73 @@ import { getLists,getDatas } from '@/api/price/price-1/common'
 export default {
     data(){
         return {
-            dynamicList:[],
-            // dynamicList:[
-            //     {
-            //         name: '小张',
+            loading:true,
+            dynamicListes:[
+                
+            ],
+            dynamicList:[
+                {
+                    name: '小张',
 
-            //         type: '订购了',
-            //         msg: '紫砂壶',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小李',
-            //         type: '订购了',
-            //         msg: '绿茶',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小王',
-            //         type: '订购了',
-            //         msg: '清茶',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小林',
-            //         type: '订购了',
-            //         msg: '茉莉花茶',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小时',
-            //         type: '订购了',
-            //         msg: '豆腐',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小七',
-            //         type: '订购了',
-            //         msg: '萝卜',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小齐',
-            //         type: '订购了',
-            //         msg: '青菜',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小新',
-            //         type: '订购了',
-            //         msg: '新茶',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小金',
-            //         type: '订购了',
-            //         msg: '毛尖',
-            //         time: '12-10 10:12'
-            //     },
-            //     {
-            //         name: '小毛',
-            //         type: '订购了',
-            //         msg: '红茶',
-            //         time: '12-10 10:12'
-            //     }
-            // ]
+                    type: '订购了',
+                    msg: '紫砂壶',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小李',
+                    type: '订购了',
+                    msg: '绿茶',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小王',
+                    type: '订购了',
+                    msg: '清茶',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小林',
+                    type: '订购了',
+                    msg: '茉莉花茶',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小时',
+                    type: '订购了',
+                    msg: '豆腐',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小七',
+                    type: '订购了',
+                    msg: '萝卜',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小齐',
+                    type: '订购了',
+                    msg: '青菜',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小新',
+                    type: '订购了',
+                    msg: '新茶',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小金',
+                    type: '订购了',
+                    msg: '毛尖',
+                    time: '12-10 10:12'
+                },
+                {
+                    name: '小毛',
+                    type: '订购了',
+                    msg: '红茶',
+                    time: '12-10 10:12'
+                }
+            ]
         }
     },
     created(){
@@ -101,17 +106,58 @@ export default {
                 getLists({pageNum:1,pageSize:10,saleSource:1}, '/order/order/orderPage').then(res => {
                     if (res.code === 1001) {
                         res.body.records.forEach(el => {
-                            this.dynamicList.push({
-                                name:el.goodsUserName,
+                            this.dynamicListes.push({
+                                name:el.goodsUserName || '李云龙',
                                 type:'购买了',
                                 msg:el.goodsName,
                                 time:el.createTime
                             })
                         });
+                        this.dynamicList = this.dynamicListes
+                        this.loading = false;
+            //             this.dynamicList=[
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            //     {
+            //         name: '小张fwewfwe',
+            //         type: '订购了',
+            //         msg: '紫砂壶wewfwfwfwefwefwf',
+            //         time: '2012-10 10:12'
+            //     },
+            // ]
                     }
                 }).catch(err => {
                 })
                 console.log('this.dynamicList',this.dynamicList)
+                console.log('this.dynamicListes',this.dynamicListes)
             },
         },
 }

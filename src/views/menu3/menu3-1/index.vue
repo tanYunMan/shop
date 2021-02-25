@@ -6,48 +6,56 @@
       <el-button type="warning" @click="dels(2)" >目录名称颜色</el-button>
       <el-button type="danger" @click="deleteEmptyCatalog()">一键删除空目录</el-button>
     </div>
-    <el-table v-if="tabelShowAgain" row-key="catalogID" ref="multipleTable" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange" :header-cell-style="{background:'#eef1f6',color:'#606266'}" v-loading="loading" :load="load" lazy :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table v-if="tabelShowAgain" row-key="catalogID" ref="multipleTable" :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange" :header-cell-style="{background:'#eef1f6',color:'#606266'}" v-loading="loading" :load="load" lazy :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
        <el-table-column :show-overflow-tooltip="true" type="selection" > </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="catalogName" label="目录名称" width="300">
+       <el-table-column :show-overflow-tooltip="true" prop="catalogName" label="目录名称" >
         <template slot-scope="scope">
-            <span :style="{'color':scope.row.color}">{{scope.row.catalogName}}</span>
+          <span :style="{'color':scope.row.color}" class="table-text">{{scope.row.catalogName}}</span>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="catalogID" label="目录编号" align="center"></el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="color" label="颜色" align="center"> </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="sort" label="序号" align="center">
+       <el-table-column :show-overflow-tooltip="true" prop="catalogID" label="目录编号" align="center" width="80">
+        <template slot-scope="scope">
+          <span class="table-text">{{scope.row.catalogID}}</span>
+        </template>
+       </el-table-column>
+       <!-- <el-table-column :show-overflow-tooltip="true" prop="color" label="颜色" align="center" width="75">
+          <template slot-scope="scope">
+          <span class="table-text">{{scope.row.color}}</span>
+        </template> -->
+        </el-table-column>
+       <el-table-column :show-overflow-tooltip="true" prop="sort" label="序号" align="center" width="60">
           <template slot-scope="scope">
             <a class="el-icon-edit-outline" style="color:#409EFF" @click="sortDialog=true,formSort.id=scope.row.catalogID,formSort.thisSort=scope.row.sort">{{scope.row.sort}}</a>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test5" label="状态" align="center">
+       <el-table-column :show-overflow-tooltip="true" prop="test5" label="状态" align="center" width="60">
         <template slot-scope="scope">
           <div>
-            <el-button type="text" plain size="mini" v-show="scope.row.state == 0" @click="updateState(scope.row)" :loading="stateLoading">隐藏</el-button>
-            <el-button type="text" plain size="mini" style="margin-left:0" v-show="scope.row.state == 1" @click="updateState(scope.row)" :loading="stateLoading">显示</el-button>
+            <el-button type="primary" class="table-text" size="mini" v-show="scope.row.state == 0" @click="updateState(scope.row)" :loading="stateLoading">隐藏</el-button>
+            <el-button type="primary" class="table-text" size="mini" style="margin-left:0" v-show="scope.row.state == 1" @click="updateState(scope.row)" :loading="stateLoading">显示</el-button>
           </div>
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="label5" label="目录来源" align="center" width="120">
+      <el-table-column :show-overflow-tooltip="true" prop="label5" label="目录来源" align="center" width="80">
          <template slot-scope="scope">
-          <div v-if="scope.row.catalogSource == 1">本地目录</div>
-          <div v-if="scope.row.catalogSource == 2">对接目录</div>
+          <div class="table-text" v-if="scope.row.catalogSource == 1">本地目录</div>
+          <div class="table-text" v-if="scope.row.catalogSource == 2">对接目录</div>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test6" label="对接状态" align="center">
+       <el-table-column :show-overflow-tooltip="true" prop="test6" label="对接状态" align="center" width="90">
         <template slot-scope="scope">
-          <el-button type="text" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 0" @click="updateAgentType(scope.row)">禁止对接</el-button>
-          <el-button type="text" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 1" @click="updateAgentType(scope.row)">单次对接</el-button>
-          <el-button type="text" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 2" @click="updateAgentType(scope.row)">多次对接</el-button>
+          <el-button class="table-text" type="primary" size="mini" style="margin-left:0" v-show="scope.row.agentType == 0" @click="updateAgentType(scope.row)">禁止对接</el-button>
+          <el-button class="table-text" type="primary" size="mini" style="margin-left:0" v-show="scope.row.agentType == 1" @click="updateAgentType(scope.row)">单次对接</el-button>
+          <el-button class="table-text" type="primary" size="mini" style="margin-left:0" v-show="scope.row.agentType == 2" @click="updateAgentType(scope.row)">多次对接</el-button>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test7" label="推荐目录" align="center">
+       <el-table-column :show-overflow-tooltip="true" prop="test7" label="推荐目录" align="center" width="80">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" v-if="scope.row.isRecommend == 1">是</el-button>
-          <el-button type="text" plain size="mini" v-if="scope.row.isRecommend == 0">否</el-button>
+          <el-button class="table-text" type="primary" size="mini"  v-if="scope.row.isRecommend == 1">是</el-button>
+          <el-button class="table-text" type="primary" size="mini"  v-if="scope.row.isRecommend == 0">否</el-button>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test7" label="排序" align="center">
+       <el-table-column :show-overflow-tooltip="true" prop="test7" label="排序" align="center" width="120">
         <template slot-scope="scope">
           <a title="移至顶部" class="wl-move-top" v-if="scope.row.arrowTop" @click="moveClick(scope.row,1)" style="background-image: url(css-icon.png);background-position:0 -20px;"></a>
           <a title="移至顶部" class="wl-move-top" v-else @click="moveClick(scope.row,1)" style="background-image: url(css-icon.png);background-position:0 -140px;"></a>
@@ -59,10 +67,10 @@
           <a title="移至底部" class="wl-move-top" v-else @click="moveClick(scope.row,4)" style="background-image: url(css-icon.png);background-position:0 -41px;"></a>
         </template>
       </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test8" label="操作" align="center"  min-width="100px">
+       <el-table-column :show-overflow-tooltip="true" prop="test8" label="操作" align="center" width="120px">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="update(scope.row)">修改</el-button>
-          <el-button type="text" size="mini" @click="del(scope.row.catalogID)">删除</el-button>
+          <el-button class="table-text" size="mini" @click="update(scope.row)">修改</el-button>
+          <el-button class="table-text" type="info" size="mini" @click="del(scope.row.catalogID)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -795,8 +803,20 @@ export default {
     display: block;
   }
 }
-
+.el-table__row .el-button {
+  padding: 0px 6px !important;
+  height: 25px;
+  margin:3px 0px;
+}
+.filter-wrap .el-button{
+  height: 30px;
+}
+.el-button {
+    padding: 4px 10px !important;
+}
 </style>
+
+
 <style lang="scss" scoped>
 .el-color-picker {
   float:left;
@@ -809,6 +829,9 @@ export default {
     .el-input,.el-textarea {
       width:400px;
     }
+  }
+  .table-text{
+    font-size: 13px !important;
   }
 }
 .wl-move-top{

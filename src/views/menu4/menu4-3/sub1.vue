@@ -1,49 +1,73 @@
 <template>
   <div class="container menu2-1-container">
-    <div class="filter-wrap">
-      <!-- <el-button type="primary" @click="getOneLevel">对接一级目录</el-button> -->
-      <el-button type="primary" @click="sureNowLevel">对接</el-button>
-      <el-button type="primary" @click="checkall(1)">全选</el-button>
-      <el-button type="primary" @click="checkall(0)">取消全选</el-button>
-    </div>
 
-    <!-- <el-table row-key="catalogID" ref="multipleTable" :data="listData" style="width: 100%" @selection-change="handleSelectionChange" :header-cell-style="{background:'#eef1f6',color:'#606266'}" v-loading="loading" :tree-props="{children: 'children'}">
-      //<el-table-column :show-overflow-tooltip="true" type="selection" > </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="catalogName" label="目录名称"></el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="catalogID" label="目录编号" align="center"></el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="sort" label="序号" align="center"> </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test6" label="对接状态" align="center">
-        <template slot-scope="scope">
-          <el-button type="danger" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 0">禁止对接</el-button>
-          <el-button type="warning" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 1">单次对接</el-button>
-          <el-button type="primary" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 2">多次对接</el-button>
-        </template>
-      </el-table-column>
-       <el-table-column :show-overflow-tooltip="true" prop="test8" label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button type="text" size="mini" v-show="!scope.row.parentID" @click="secondLevel(scope.row)" icon="el-icon-share">对接子级目录</el-button>
-          <el-button type="text" size="mini" v-show="scope.row.parentID" icon="el-icon-share" @click="goGoodsList(scope.row)">对接目录商品</el-button>
-        </template>
-      </el-table-column>
-    </el-table> -->
-
-    <div :key="time" class="dir_project_box">
-      <div v-for="(item, index) in listData" :key="index" class="dir_box">
-        <div class="item_first_dir">
-          <div class="first_txt">
-            <span v-if="item.isAgent === 0 && item.agentType === 0" class="no_select_txt">{{ item.catalogName }}</span>
-            <el-checkbox v-else v-model="item.isAgent === 1?true:item.selected" :disabled="item.isAgent === 1" :class="{red_txt: item.agentType === 2, green_txt: item.agentType === 1}" @change="changeCheckboxNow(item, 'first',index)">{{ item.catalogName }}</el-checkbox>
+    <el-tabs
+      v-model="activeTopType"    
+    >    
+         <!-- tab1 -->
+        <el-tab-pane label="最新上架" name="first">
+            最新上架
+        </el-tab-pane>
+         <!-- tab2 -->
+        <el-tab-pane label="商品目录" name="second">
+          <div class="filter-wrap">
+          <!-- <el-button type="primary" @click="getOneLevel">对接一级目录</el-button> -->
+            <el-button type="primary" @click="sureNowLevel">对接</el-button>
+            <el-button type="primary" @click="checkall(1)">全选</el-button>
+            <el-button type="primary" @click="checkall(0)">取消全选</el-button>
           </div>
-          <div class="second_box">
-            <div v-for="(items, indexs) in item.children" :key="indexs" class="second_txt">
-              <span v-if="items.isAgent === 0 && items.agentType === 0" class="no_select_txt">{{ items.catalogName }}</span>
-              <el-checkbox v-else v-model="items.isAgent === 1 ? true : items.selected" :disabled="items.isAgent === 1||items.isAgent === 2" :class="{red_txt: items.agentType === 2, green_txt: items.agentType === 1}" @change="changeCheckboxNow(items, 'second')">{{ items.catalogName }}</el-checkbox>
-              <span class="txt_top" @click="goGoodsList(items)" />
+
+          <!-- <el-table row-key="catalogID" ref="multipleTable" :data="listData" style="width: 100%" @selection-change="handleSelectionChange" :header-cell-style="{background:'#eef1f6',color:'#606266'}" v-loading="loading" :tree-props="{children: 'children'}">
+            //<el-table-column :show-overflow-tooltip="true" type="selection" > </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="catalogName" label="目录名称"></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="catalogID" label="目录编号" align="center"></el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="sort" label="序号" align="center"> </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="test6" label="对接状态" align="center">
+              <template slot-scope="scope">
+                <el-button type="danger" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 0">禁止对接</el-button>
+                <el-button type="warning" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 1">单次对接</el-button>
+                <el-button type="primary" plain size="mini" style="margin-left:0" v-show="scope.row.agentType == 2">多次对接</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column :show-overflow-tooltip="true" prop="test8" label="操作" align="center">
+              <template slot-scope="scope">
+                <el-button type="text" size="mini" v-show="!scope.row.parentID" @click="secondLevel(scope.row)" icon="el-icon-share">对接子级目录</el-button>
+                <el-button type="text" size="mini" v-show="scope.row.parentID" icon="el-icon-share" @click="goGoodsList(scope.row)">对接目录商品</el-button>
+              </template>
+            </el-table-column>
+          </el-table> -->
+
+          <div :key="time" class="dir_project_box">
+            <div v-for="(item, index) in listData" :key="index" class="dir_box">
+              <div class="item_first_dir">
+                <div class="first_txt">
+                  <span v-if="item.isAgent === 0 && item.agentType === 0" class="no_select_txt">{{ item.catalogName }}</span>
+                  <el-checkbox v-else v-model="item.isAgent === 1?true:item.selected" :disabled="item.isAgent === 1" :class="{red_txt: item.agentType === 2, green_txt: item.agentType === 1}" @change="changeCheckboxNow(item, 'first',index)">{{ item.catalogName }}</el-checkbox>
+                </div>
+                <div class="second_box">
+                  <div v-for="(items, indexs) in item.children" :key="indexs" class="second_txt">
+                    <span v-if="items.isAgent === 0 && items.agentType === 0" class="no_select_txt">{{ items.catalogName }}</span>
+                    <el-checkbox v-else v-model="items.isAgent === 1 ? true : items.selected" :disabled="items.isAgent === 1||items.isAgent === 2" :class="{red_txt: items.agentType === 2, green_txt: items.agentType === 1}" @change="changeCheckboxNow(items, 'second')">{{ items.catalogName }}</el-checkbox>
+                    <span class="txt_top" @click="goGoodsList(items)" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </el-tab-pane>
+        <!-- tab3 -->
+        <el-tab-pane label="商品对接状态" name="third">
+            商品对接状态
+        </el-tab-pane>
+        <!-- tab4 -->
+        <el-tab-pane label="订单充值中" name="fourth">
+            订单充值中
+        </el-tab-pane>
+    
+    </el-tabs>
+
+
+
 
     <!-- 一级目录对接-->
     <!-- <el-dialog title="对接一级目录" :visible.sync="dialog1" class="dialog1" :close-on-click-modal="false">
@@ -196,7 +220,8 @@ export default {
       goodsList: [], // 可对接商品
       firstLabelData: [], // 一级选中的菜单
       secondLabelData: [], // 二级选中的菜单
-      time: new Date().getTime()
+      time: new Date().getTime(),
+      activeTopType:'second',//默认选中第二个tab页
     }
   },
   mounted() {
@@ -752,14 +777,16 @@ export default {
       .item_first_dir {
         margin-bottom: 5px;
         .first_txt {
-          height: 40px;
+          height: 28px;
           display: flex;
           align-items: center;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           background: #ecf5ff;
-          padding: 0 5px;
+          padding: 0 10px;
+          border-left: 5px solid #3a99ea;
+          background: #f4f4f4;
           box-sizing: border-box;
           .el-checkbox {
             display: flex;
@@ -778,13 +805,14 @@ export default {
         .second_box {
           display: flex;
           flex-wrap: wrap;
-          border-top: 1px solid #eeecea;
-          border-left: 1px solid #eeecea;
+          padding-left: 10px;
+          // border-top: 1px solid #eeecea;
+          // border-left: 1px solid #eeecea;
           .second_txt {
-            width: 20%;
+            width: 25%;
             overflow: hidden;
-            border-right: 1px solid #eeecea;
-            border-bottom: 1px solid #eeecea;
+            // border-right: 1px solid #eeecea;
+            // border-bottom: 1px solid #eeecea;
             padding: 5px;
             box-sizing: border-box;
             display: flex;
@@ -818,6 +846,16 @@ export default {
       }
     }
   }
+}
+</style>
+
+<style lang="scss">
+.filter-wrap .el-input__inner {
+    height: 30px !important;
+    line-height: 30px !important;
+}
+.filter-wrap button {
+    height: 30px !important;
 }
 </style>
 

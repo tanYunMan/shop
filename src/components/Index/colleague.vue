@@ -14,7 +14,7 @@
             </div>
         </div> -->
 
-        <el-table :data="tableData" style="width: 100%;border-collapse: separate;border-spacing: 0px 10px;" :show-header="status">
+        <el-table :row-style="{height:50+'px'}" :cell-style="{padding:0+'px'}" :data="tableData" style="width: 100%;border-collapse: separate;border-spacing: 0px 10px;fontSize:17px" :show-header="status">
             <el-table-column :show-overflow-tooltip="true" prop="content" label="名称">
                 <template slot-scope="scope">
                 <img src="index_news.png" style="margin-right:5px">
@@ -84,7 +84,7 @@ export default {
     methods: {
         // 获取公告信息
         getLists(){
-            getLists({pageNum:1,pageSize:15},'/platform/updateNotice/pageParentNotices').then(res => {
+            getLists({pageNum:1,pageSize:10},'/platform/updateNotice/pageParentNotices').then(res => {
                 if (res.code===1001){
                     this.tableData = res.body.records
                 }

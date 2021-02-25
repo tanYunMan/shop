@@ -254,8 +254,8 @@ export default [
             path: 'sub1',
             name: 'menu121',
             component: () => import('@/views/menu1/menu1-2/sub1'),
-            meta: { title: '', icon: '' },
-            hidden: true
+            meta: { title: '系统设置', icon: '' },
+            hidden: false
           },
           {
             path: 'sub2',
@@ -926,7 +926,7 @@ export default [
         path: 'interface',
         name: 'rechargeInterface',
         component: () => import('@/views/recharge/interface'),
-        functionCode: 's-finance-attr',
+        functionCode: 's-recharge-rate',//这里暂时用其他菜单把它显示出来
         meta: { title: '充值接口' }
       },
       {

@@ -100,15 +100,17 @@ export default {
 </script>
 <style scoped>
 .Fast{
-    width: 100%;
+    margin-left:-70px;
+    width: 120%;
     height: auto;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 .Fast-list{
+    margin-top:30px;
     width: 33%;
-    height: 56px;
+    height: 70px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -116,7 +118,7 @@ export default {
     margin-bottom: 15px;
     border-radius: 5px;
 }
-.Fast-list:hover{
+/* .Fast-list:hover{
     background: #16B3FD;
     color: #ffffff;
 
@@ -126,19 +128,19 @@ export default {
 }
 .Fast-list:hover .Fast-list-bottom{
     color: #ffffff !important;
-}
+} */
 .Fast-list-top{
     width: 100%;
     display: flex;
     justify-content: center;
 }
 .Fast-list-top-icon{
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     fill: currentColor;
 }
 .Fast-list-bottom{
-    font-size: 12px;
+    font-size: 15px;
     color: #3F495E;
     text-align: center;
 }
