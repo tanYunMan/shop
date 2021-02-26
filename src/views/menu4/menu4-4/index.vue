@@ -14,12 +14,12 @@
       <div>
         <el-table border row-key="id" ref="multipleTable" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange" :header-cell-style="{background:'#f5f5f5',color:'#606266','text-align':'center'}" size="mini" v-loading="loading" >
           <!--  <el-table-column :show-overflow-tooltip="true" type="selection" > </el-table-column> -->
-          <el-table-column :show-overflow-tooltip="true" prop="siteName" label="供货平台信息" fixed="left" width="160">
+          <el-table-column :show-overflow-tooltip="true" prop="siteName" label="供货平台信息"  >
             <template slot-scope="scope">
               <div style="display:flex;align-items: center;">
                 <el-image style="width: 40px; height: 40px; border-radius: 50%;" v-if="scope.row.baseInfo" :src="scope.row.baseInfo.headImg||AvatarDef" :preview-src-list="[scope.row.baseInfo.headImg]" />
                 <el-image style="width: 40px; height: 40px; border-radius: 50%;" :src="AvatarDef" :preview-src-list="[AvatarDef]" v-else></el-image>
-                <span style="margin-left:5px;overflow: hidden;text-overflow: ellipsis;">{{scope.row.siteName}}</span>
+                <span style="margin-left:5px">{{scope.row.siteName}}</span>
               </div>
             </template>
           </el-table-column>
@@ -33,24 +33,12 @@
               <el-link :underline="false">{{scope.row.joinCode || ''}}</el-link>
             </template>
           </el-table-column> -->
-
-          <el-table-column prop="label2" label="标签" align="center">
-            <template slot-scope="scope">
-               <el-tag
-                size="small"
-                type="danger"
-                effect="plain">
-                {{ scope.row.siteEdition.editionName }}
-              </el-tag>
-            </template>
-          </el-table-column>
-
-          <el-table-column :show-overflow-tooltip="true" prop="label2" label="QQ" width="110" align="center">
+          <el-table-column :show-overflow-tooltip="true" prop="label2" label="QQ">
             <template slot-scope="scope">
               <el-link :underline="false">{{scope.row.baseInfo && scope.row.baseInfo.qq || ''}}</el-link>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="label2" label="介绍" width="300">
+          <el-table-column :show-overflow-tooltip="true" prop="label2" label="介绍">
             <template slot-scope="scope">
               <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;cursor: pointer;color:#409EFF">{{scope.row.baseInfo && scope.row.baseInfo.remark || ''}}</div>
             </template>
@@ -61,26 +49,26 @@
               <div>{{scope.row.connectMoney || ''}}</div>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="label3" label="版本" >
+          <el-table-column :show-overflow-tooltip="true" prop="label3" label="版本" align="center" >
             <template slot-scope="scope">
-              <el-button type="text" style="width:100%;" plain size="mini" v-if="scope.row.siteEdition" >{{scope.row.siteEdition&&scope.row.siteEdition.editionName}}</el-button>
+              <el-button type="text" plain size="mini" v-if="scope.row.siteEdition" >{{scope.row.siteEdition&&scope.row.siteEdition.editionName}}</el-button>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="label10" label="商家网址" width="150">
+          <el-table-column :show-overflow-tooltip="true" prop="label10" label="商家网址" align="center">
             <template slot-scope="scope">
               <a style="color:#409EFF" v-if="scope.row.systemDomain" target="_blank" type="primary" :href="'http://'+scope.row.domainPre+'.'+scope.row.systemDomain.domainAddr">{{'http://'+scope.row.domainPre+'.'+scope.row.systemDomain.domainAddr}}</a>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="label10" label="商家信息" align="center">
+          <el-table-column :show-overflow-tooltip="true" prop="label10" label="商家信息" align="center" width="160">
             <template slot-scope="scope">
-              <el-button plain size="mini" @click="lookBusiness(scope.row.siteID)" style="width:80%;">查看</el-button>
+              <el-button type="text" plain size="mini" @click="lookBusiness(scope.row.siteID)">查看</el-button>
             </template>
           </el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="label10" label="操作" width="160" align="center" fixed="right">
+          <el-table-column :show-overflow-tooltip="true" prop="label10" label="操作"  fixed="right" width="160" align="center">
             <template slot-scope="scope">
-              <el-button type="primary" v-if="!scope.row.joinState" size="mini" @click="applicationDocking(scope.row)">申请对接</el-button>
-              <el-button type="primary" v-else @click="dockingDirectory(scope.row.siteID)" size="mini">对接目录</el-button>
-              <el-button type="primary" v-if="scope.row.cloneState == 0 || scope.row.cloneState == 5" @click="applyForClone(scope.row)" size="mini">申请克隆</el-button>
+              <el-button type="text" v-if="!scope.row.joinState" size="mini" @click="applicationDocking(scope.row)">申请对接</el-button>
+              <el-button type="text" v-else @click="dockingDirectory(scope.row.siteID)" size="mini">对接目录</el-button>
+              <el-button type="text" v-if="scope.row.cloneState == 0 || scope.row.cloneState == 5" @click="applyForClone(scope.row)" size="mini">申请克隆</el-button>
               <el-button type="text" v-if="scope.row.cloneState == 2" @click="applyForClone(scope.row)" size="mini">克隆</el-button>
               <el-button type="text" v-if="scope.row.cloneState == 4" @click="applyForClone(scope.row)" size="mini">取消克隆</el-button>
             </template>
@@ -402,12 +390,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.el-table__row .el-button {
-    padding: 0 !important;
-    width: 45%;
-    height: 30px;
-}
-
 .container {
   padding:20px;
   .filter-wrap {
@@ -455,33 +437,18 @@ export default {
   }
   .businessInfoUl li .label{
       font-weight: 600;
-      text-align: right;
   }
   .businessInfoUl li {
     display: flex;
     align-items: center;
     .label {
       width: 100px;
-      display: table;
-      font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
     }
     .val-img {
       width: 50px;
       height: 50px;
     }
-    .val{
-      color: rgb(153, 153, 153) !important;
-    }
   }
-}
-</style>
-<style lang="scss">
-.filter-wrap .el-input__inner {
-    height: 30px !important;
-    line-height: 30px !important;
-}
-.filter-wrap button {
-    height: 30px !important;
 }
 </style>
 

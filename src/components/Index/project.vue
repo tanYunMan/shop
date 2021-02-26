@@ -79,13 +79,13 @@
             <!-- <div class="title">今日统计</div> -->
             <div class="record-warp" style="padding:0">
                 <div class="item" style="margin:0 0 20px 10px;width: calc(25% - 10px);" v-for="(item,index) in records" :key="index">
-                    <div class="content">
+                    <div class="content" style="width:100%">
                         <div style="marginRight:30px">
                           <img :src="item.icon" />
                         </div>
-                        <div class="info" style="width:140px;display: flex;justify-content: center;align-items: center;">
-                          <p class="name" style="color:white;margin-right:10px;fontSize:18px;fontWeight:bold;marginTop:5px">{{item.name}}</p>
-                          <p style="color:white;fontWeight:bold">{{item.num}} {{item.tips}}</p>
+                        <div id="info">
+                          <p id="name">{{item.name}}</p>
+                          <p id='infoContent'>{{item.num}} {{item.tips}}</p>
                         </div> 
                     </div>
                 </div>
@@ -171,6 +171,40 @@ export default {
 </script>
 
 <style  lang="scss" scoped>
+#info{
+    width:140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#name{
+    color:white;
+    margin-right:10px;
+    font-size:18px;
+    font-weight:bold;
+    margin-top:5px
+}
+#infoContent{
+    color:white;
+    font-weight:bold;
+    font-size: 23px;
+    margin-top:10px;
+}
+@media only screen and (min-width: 1200px){
+    // #name{
+    //     color:white;
+    //     margin-right:10px;
+    //     font-size:8px;
+    //     font-weight:bold;
+    //     margin-top:5px
+    // }
+    // #infoContent{
+    //     color:white;
+    //     font-weight:bold;
+    //     font-size: 13px;
+    //     margin-top:10px;
+    // }
+}
 .dashboard-container {
   display:flex;
   .item{
